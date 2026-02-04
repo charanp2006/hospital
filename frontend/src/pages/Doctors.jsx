@@ -41,6 +41,7 @@ const Doctors = () => {
         <div className='w-full grid grid-cols-auto gap-4 gap-y-6'>
           {
             filterDoc.map((item, index) => (
+          item.available &&
           <div
             onClick={() => navigate(`/appointment/${item._id}`)}
             key={index}

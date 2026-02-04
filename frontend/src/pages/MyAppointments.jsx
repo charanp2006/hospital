@@ -83,13 +83,6 @@ const MyAppointments = () => {
             }
 
           },
-          // prefill: {
-          //   name: appointment.userName,
-          //   email: appointment.userEmail,
-          // },
-          // theme: {
-          //   color: "#3399cc",
-          // },
         };
         const rzp = new window.Razorpay(options);
         rzp.open();
