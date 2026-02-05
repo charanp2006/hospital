@@ -1,0 +1,93 @@
+import React from 'react'
+import { useContext } from 'react';
+import { useEffect } from 'react';
+import { assets } from '../../assets/assets';
+import { AppContext } from '../../context/AppContext';
+import { DoctorContext } from '../../context/DoctorContext';
+import { use } from 'react';
+
+const DoctorDashboard = () => {
+
+  const { dToken, cancelDoctorAppointment, dashboardData, getDashboardData, completeDoctorAppointment } = useContext(DoctorContext);
+  const { slotDateFormat } = useContext(AppContext);
+
+  useEffect(() => {
+    if (dToken){
+      getDashboardData();
+    }
+  }, [dToken]);
+
+  return dashboardData && (
+    <div className='m-5'>
+      
+      <div className='flex flex-wrap gap-3'>
+
+        <div className='flex items-center gap-2 p-4 bg-white min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all'>
+          <img className='w-14' src={assets.earning_icon} alt="" />
+          <div>
+            <p className='text-xl font-semibold text-gray-600'>{dashboardData.earnings}</p>
+            <p className='text-gray-400'>Earnings</p>
+          </div>
+        </div>
+
+        <div className='flex items-center gap-2 p-4 bg-white min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all'>
+          <img className='w-14' src={assets.appointments_icon} alt="" />
+          <div>
+            <p className='text-xl font-semibold text-gray-600'>{dashboardData.appointments}</p>
+            <p className='text-gray-400'>Appointments</p>
+          </div>
+        </div>
+
+        <div className='flex items-center gap-2 p-4 bg-white min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all'>
+          <img className='w-14' src={assets.patients_icon} alt="" />
+          <div>
+            <p className='text-xl font-semibold text-gray-600'>{dashboardData.patients}</p>
+            <p className='text-gray-400'>Patients</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div className='bg-white'>
+
+        <div className='flex items-center gap-2.5 p-4 border-b-2 mt-10 rounded-t border'>
+          <img src={assets.list_icon} alt="" />
+          <p className='font-semibold'>Latest Bookings</p>
+        </div>
+
+        <div className='pt-4 border border-t-0'>
+          {
+            dashboardData.latestAppointments.length === 0 ? (
+              <p className='p-6 text-gray-500 text-center'>No appointments found</p>
+            ) : (
+              dashboardData.latestAppointments.map((appointment,index) => (
+                <div key={index} className='flex items-center px-6 py-3 gap-3 hover:bg-gray-100'>
+                  <img className='rounded-full bg-gray-200 w-10' src={appointment.docData.image} alt="" />
+                  <div className='flex-1 text-sm'>
+                    <p className='text-gray-800 font-semibold'>{appointment.docData.name}</p>
+                    <p className='text-gray-600 text-sm'>{slotDateFormat(appointment.slotDate)}</p>
+                  </div>
+                                  {
+                                                appointment.cancelled ? 
+                                                  <p className='text-red-500 font-medium'>Cancelled</p>
+                                                : appointment.isCompleted ?
+                                                  <p  className='text-green-500 font-medium'>Completed</p>
+                                                :
+                                                  <div className='flex'>
+                                                    <img onClick={()=>cancelDoctorAppointment(appointment._id)} className='w-10 cursor-pointer' src={assets.cancel_icon} alt="" />
+                                                    <img onClick={()=>completeDoctorAppointment(appointment._id)} className='w-10 cursor-pointer' src={assets.tick_icon} alt="" />
+                                                  </div>
+                                              }
+                </div>
+              ))
+            )
+          }
+        </div>
+
+      </div>
+
+    </div>
+  )
+}
+
+export default DoctorDashboard

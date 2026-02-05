@@ -58,13 +58,20 @@ const AllAppointments = () => {
               </div>
             </div>
             <p>{currencySymbol} {appointment.amount}</p>
-            <div>
-              {
-              appointment.cancelled 
-              ? <p className='text-red-500 font-medium cursor-not-allowed'>Cancelled</p>
-              : <p onClick={()=>cancelAppointment(appointment._id)} className='text-blue-500 font-medium cursor-pointer'>Cancel</p>
-              }
-            </div>
+              {appointment.cancelled ? (
+                <p className="text-red-500 font-medium">Cancelled</p>
+              ) : appointment.isCompleted ? (
+                <p className="text-green-500 font-medium">Completed</p>
+              ) : (
+                <div className="flex">
+                  <img
+                    onClick={() => cancelAppointment(appointment._id)}
+                    className="w-10 cursor-pointer"
+                    src={assets.cancel_icon}
+                    alt=""
+                  />
+                </div>
+              )}
           </div>
         )))}
 
