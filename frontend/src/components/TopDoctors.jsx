@@ -15,7 +15,6 @@ const TopDoctors = () => {
       </p>
       <div className="w-full grid grid-cols-auto gap-4 pt-5 gap-y-6 px-3 sm:px-0">
         {doctors.slice(0, 10).map((item, index) => (
-          item.available &&
           <div
             onClick={() =>{ navigate(`/appointment/${item._id}`); scrollTo(0,0)}}
             key={index}
@@ -23,9 +22,9 @@ const TopDoctors = () => {
           >
             <img className="bg-[#EAEFFF]" src={item.image} alt="" />
             <div className="p-4">
-              <div className="flex items-center gap-2 text-sm text-center text-green-500">
-                <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                <p>Available</p>
+              <div className={`flex items-center gap-2 text-sm text-center ${item.available ? 'text-green-500' : 'text-gray-500'} `}>
+                <span className={`w-2 h-2 ${item.available ? 'bg-green-500' : 'bg-gray-500'} rounded-full`}></span>
+                <p>{item.available ? 'Available' : 'Not Available'}</p>
               </div>
               <p className="text-[#262626] text-lg font-medium">{item.name}</p>
               <p className="text-[#5C5C5C] text-sm">{item.speciality}</p>

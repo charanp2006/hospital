@@ -135,10 +135,11 @@ const MyAppointments = () => {
               </div>
               <div></div>
               <div className='flex flex-col gap-2 justify-end text-sm text-center'>
-                {!item.cancelled && item.payment && <button className='text-stone-500 sm:min-w-48 py-2 border rounded bg-indigo-50'>Paid</button> }
-                {!item.cancelled && !item.payment && <button onClick={()=>appointmentRazorpay(item._id)} className='text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300'>Pay Online</button> }
-                {!item.cancelled && <button onClick={()=>cancelAppointment(item._id)} className='text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-red-500 hover:text-white transition-all duration-300'>Cancel appointment</button> }
-                {item.cancelled && <p className='text-red-500 font-medium'>Appointment Cancelled</p>}
+                {!item.cancelled && item.payment && !item.isCompleted && <button className='text-stone-500 sm:min-w-48 py-2 border rounded bg-indigo-50'>Paid</button> }
+                {!item.cancelled && !item.payment && !item.isCompleted && <button onClick={()=>appointmentRazorpay(item._id)} className='text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300'>Pay Online</button> }
+                {!item.cancelled && !item.isCompleted && <button onClick={()=>cancelAppointment(item._id)} className='text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-red-500 hover:text-white transition-all duration-300'>Cancel appointment</button> }
+                {item.cancelled && !item.isCompleted && <p className='text-red-500 font-medium'>Appointment Cancelled</p>}
+                {item.isCompleted && <button className='sm:min-w-48 py-2 border border-green-500 rounded text-green-500 font-medium'>Completed</button>}
               </div>
             </div>
           ))
